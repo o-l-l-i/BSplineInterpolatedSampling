@@ -11,8 +11,8 @@ Below you can see how this filtering effects the well known test image, when zoo
 
 ### B-Spline interpolation off
 
-![![B-Spline interpolation off image](BSplineInterpolatedSampling_off.png) image](BSplineInterpolatedSampling_off.png)
+![B-Spline interpolation off image](BSplineInterpolatedSampling_off.png)
 
 ### B-Spline interpolation on
 
-![![B-Spline interpolation on image](BSplineInterpolatedSampling_on.png) image](BSplineInterpolatedSampling_on.png)
+![B-Spline interpolation on image](BSplineInterpolatedSampling_on.png)
