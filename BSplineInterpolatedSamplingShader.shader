@@ -1,4 +1,10 @@
-﻿Shader "Custom/B-SplineInterpolatedTexture"
+// Efficient GPU-Based Texture Interpolation using Uniform B-Splines.
+// http://mate.tue.nl/mate/pdfs/10318.pdf
+// Based on the source code presented in the paper.
+// Ported by Olli S.
+// NOTE, IMPORTANT:
+// This shader requires the texture to be filtered with bilinear filtering. It does not work with nearest neighbor.
+Shader "Custom/B-SplineInterpolatedTexture"
 {
     Properties
     {
@@ -22,7 +28,6 @@
 
             #include "UnityCG.cginc"
 
-
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -36,12 +41,10 @@
                 float4 vertex : SV_POSITION;
             };
 
-
             // Samplers etc.
             sampler2D _MainTex;
             float4 _MainTex_TexelSize;
             float4 _MainTex_ST;
-
 
             v2f vert (appdata v)
             {
@@ -53,16 +56,10 @@
             }
 
 
-            // Efficient GPU-Based Texture Interpolation using Uniform B-Splines.
-            // http://mate.tue.nl/mate/pdfs/10318.pdf
-            // Based on the source code presented in the paper.
-            // Ported by Olli S.
-            // NOTE, IMPORTANT:
-            // This shader requires the texture to be filtered with bilinear filtering. It does not work with nearest neighbor.
             fixed4 Interpolate_Bicubic(sampler2D tex, float2 uv)
             {
                 // transform the coordinate from [0,extent] to [-0.5, extent-0.5].
-                // Scale coordinates to to pixel size, offset half pixel.
+                // Scale coordinates to texel size, offset half texel.
                 float2 coord_grid = uv.xy * _MainTex_TexelSize.zw - 0.5;
 
                 // Generate 2D index from pixel coordinates by flooring the values to nearest integer.
@@ -98,7 +95,7 @@
 
                 // weigh along the x-direction.
                 return lerp(tex10, tex00, g0.x);
-            }            
+            }
 
 
             fixed4 frag (v2f i) : SV_Target
